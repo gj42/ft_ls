@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 16:21:52 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/02 19:06:48 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/03 17:54:10 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	main(int argc, char **argv)
 	DIR				*dir;
 	struct dirent	*fichier;
 	t_lsdir			*lsdir;
-	int				yanael;
+	int				exchange;
 	t_lsdir			*elem;
-	int		lol;
 	t_lsdir			*tmp;
+//	t_lsdir			*temp;
 
 	lsdir = NULL;
 	if (argc == 1)
@@ -34,41 +34,28 @@ int	main(int argc, char **argv)
 		elem = ft_newlst();
 		ft_addlsdir(&lsdir, elem, fichier->d_name);
 	}
-//	lm = lsdir;
-	yanael = 1;
-	while (yanael)
+	exchange = 1;
+	tmp = lsdir;
+	while (exchange)
 	{
-		yanael = 0;
-//		lsdir = lm;
+		exchange = 0;
+		lsdir = tmp;
 //		ft_putendl(lsdir->name);
 		while (lsdir)
 		{
 			ft_putendl(lsdir->name);
-			if ((lol = ft_strcmp(lsdir->name, lsdir->next->name)) > 0)
+			if (ft_strcmp(lsdir->name, lsdir->next->name) > 0)
 			{
-				ft_putendl("====");
-				ft_putnbr(lol);
-				ft_putendl(lsdir->next->name);
-				tmp = (t_lsdir*)malloc(sizeof(t_lsdir));
+				swaplist(lsdir, lsdir->next);
+				
 
-				tmp = lsdir->next->next;
-
-				swaplist(&lsdir->next->previous,&lsdir->previous);
-				swaplist(&lsdir->next, &lsdir);
-				lsdir->next = tmp;
-				
-				
-				
-				
-				ft_putendl(lsdir->next->name);
-				ft_putendl(lsdir->name);
-				ft_putendl(lsdir->next->name);
-				yanael = 1;
+				exchange = 1;
 			}
-			lsdir = lsdir->next;
+			if (lsdir->next)
+				lsdir = lsdir->next;
 		}
 	}
-//	lsdir = lm;
+	lsdir = tmp;
 	while (lsdir)
 	{
 		if (lsdir->name[0] != '.')

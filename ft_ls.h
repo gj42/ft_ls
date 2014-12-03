@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/02 18:50:34 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/03 15:31:06 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct	s_lsdir
 }				t_lsdir;
 
 t_lsdir	*ft_newlst(void);
-void	swaplist(t_lsdir **a, t_lsdir **b);
+void	swaplist(t_lsdir *a, t_lsdir *b);
 void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name);
 	
 
