@@ -6,7 +6,7 @@
 #    By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/26 10:48:25 by gjensen           #+#    #+#              #
-#    Updated: 2014/12/01 19:00:10 by gjensen          ###   ########.fr        #
+#    Updated: 2014/12/05 19:47:24 by gjensen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ LIB = -I ./libft/includes
 $(NAME):
 	make -C libft/ fclean
 	make -C libft/
-	gcc $(CFLAGS) -c $(SRC) $(LIB)
-	gcc $(CFLAGS) -o $(NAME) $(OBJ) -L libft/ -lft
+	gcc $(CFLAGS) -c $(SRC) $(LIB) -g
+	gcc $(CFLAGS) -o $(NAME) $(OBJ) -L libft/ -lft -g
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/27 18:31:10 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/03 17:55:10 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/05 20:17:13 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ t_lsdir	*ft_newlst(void)
 	return (ret);
 }
 
-void	swaplist(t_lsdir *a, t_lsdir *b)
+void	swaplist(t_lsdir *lsdir, t_lsdir *lsdirnext)
 {
-	t_lsdir *tmp_b_next;
-	t_lsdir	*tmp_a_next;
-	t_lsdir *tmp_a_previous;;
+	t_lsdir	*tmp;
+	t_lsdir *tmp_lsdir;
+	t_lsdir	*tmp_lsdirprevious;
 
-	tmp_b_next = b->next;
-	tmp_a_next = a->next;
-	tmp_a_previous = a->previous;
-	
-	a->previous->next = b;
-	a->previous = b->previous;
-	b->previous = tmp_a_previous;
-	a->next = tmp_b_next;
-	b->next = tmp_a_next;
-
+	tmp = lsdir->next;
+	tmp_lsdir = lsdir;
+	tmp_lsdirprevious = lsdir->previous;
+	lsdir->previous->next = lsdirnext;
+	lsdir->previous = lsdirnext;
+	lsdir->next = lsdirnext->next;
+	lsdir = tmp;
+	lsdir->next = tmp_lsdir;
+	lsdir->previous = tmp_lsdirprevious;
 }

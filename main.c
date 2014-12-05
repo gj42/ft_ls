@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 16:21:52 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/03 17:54:10 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/05 20:17:16 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	main(int argc, char **argv)
 	int				exchange;
 	t_lsdir			*elem;
 	t_lsdir			*tmp;
-//	t_lsdir			*temp;
 
 	lsdir = NULL;
 	if (argc == 1)
@@ -40,19 +39,16 @@ int	main(int argc, char **argv)
 	{
 		exchange = 0;
 		lsdir = tmp;
-//		ft_putendl(lsdir->name);
-		while (lsdir)
+		while (lsdir && lsdir->next)
 		{
-			ft_putendl(lsdir->name);
 			if (ft_strcmp(lsdir->name, lsdir->next->name) > 0)
 			{
 				swaplist(lsdir, lsdir->next);
-				
-
+				if (lsdir->next != NULL)
+					lsdir->next->previous = lsdir;
 				exchange = 1;
 			}
-			if (lsdir->next)
-				lsdir = lsdir->next;
+			lsdir = lsdir->next;
 		}
 	}
 	lsdir = tmp;
