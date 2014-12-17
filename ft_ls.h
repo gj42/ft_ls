@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/05 17:41:23 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/17 19:12:54 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,44 @@
 typedef struct	s_lsdir
 {
 	char			name[256];
-	struct s_lsdir	*next; 
+	struct passwd	*id;
+	struct group	*grp;
+	struct stat		*stat;
+	struct s_lsdir	*next;
 	struct s_lsdir  *previous;
 }				t_lsdir;
 
+typedef struct	s_lsalign
+{
+	int	links;
+	int	user;
+	int	grp;
+	int	bytes;
+}				t_lsalign;
+
+typedef	struct	s_lsoption
+{
+	int	optionl;
+	int	optiona;
+	int	optionr;
+	int	optionrr;
+	int optiont;
+}				t_lsoption;
+
+
 t_lsdir	*ft_newlst(void);
 void	swaplist(t_lsdir *lsdir, t_lsdir *lsdirnext);
-void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name);
-	
-
+void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path);
+t_lsdir	*ft_ls_sortascii(t_lsdir *lsdir);
+void	checkmode(t_lsdir *lsdir);
+void	show_id(t_lsdir *lsdir, t_lsalign *align);
+void	printls(t_lsdir *lsdir, t_lsalign *align, t_lsoption *option);
+void	showtime(time_t *clock);
+t_lsalign	*checkalign(t_lsdir *lsdir);
+void	showlinks(t_lsdir *lsdir, t_lsalign *align);
+void	showbytes(t_lsdir *lsdir, t_lsalign *align);
+int 	ft_parse(t_lsoption *option, char **argv);
+void	ft_startls(DIR *dir, t_lsoption *option, char *argv);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/03 13:55:14 by gjensen           #+#    #+#             */
-/*   Updated: 2014/11/28 22:50:10 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/17 11:56:53 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,5 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_swap(void *a,void *b);
+int					ft_intlen(int number);
 #endif

@@ -6,7 +6,7 @@
 	#    By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+         #
 	#                                                 +#+#+#+#+#+   +#+            #
 	#    Created: 2014/11/03 12:29:01 by gjensen           #+#    #+#              #
-#    Updated: 2014/11/26 19:33:52 by gjensen          ###   ########.fr        #
+#    Updated: 2014/12/17 11:56:09 by gjensen          ###   ########.fr        #
 	#                                                                              #
 	# **************************************************************************** #
 
@@ -71,7 +71,8 @@ SRC =	ft_putchar.c \
 		ft_lstadd.c \
 		ft_lstiter.c \
 		ft_lstmap.c \
-		ft_swap.c
+		ft_swap.c \
+		ft_intlen.c
 
 OBJ = $(SRC:.c=.o)
 
