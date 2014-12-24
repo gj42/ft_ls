@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/27 18:31:10 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/17 19:02:29 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/24 16:31:58 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	swaplist(t_lsdir *lsdir, t_lsdir *lsdirnext)
 	tmp = lsdir->next;
 	tmp_lsdir = lsdir;
 	tmp_lsdirprevious = lsdir->previous;
-	lsdir->previous->next = lsdirnext;
+	if (lsdir->previous != NULL)
+		lsdir->previous->next = lsdirnext;
 	lsdir->previous = lsdirnext;
 	lsdir->next = lsdirnext->next;
 	lsdir = tmp;
@@ -55,7 +56,7 @@ void	printls(t_lsdir *lsdir, t_lsalign *align, t_lsoption *option)
 	ft_putendl(lsdir->name);
 }
 
-t_lsalign	*checkalign(t_lsdir *lsdir)
+t_lsalign	*checkalign(t_lsdir *lsdir, t_lsoption *option)
 {
 	t_lsalign	*align;
 	int 		links;
@@ -70,6 +71,9 @@ t_lsalign	*checkalign(t_lsdir *lsdir)
 	align->bytes = 0;
 	while (lsdir)
 	{
+		if (!option->optiona)
+			while (lsdir->name[0] == '.')
+				lsdir = lsdir->next;
 		links = ft_intlen(lsdir->stat->st_nlink);
 		if (links > align->links)
 			align->links = links;

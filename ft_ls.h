@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/17 19:12:54 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/24 16:31:55 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 # include <time.h>
 # include <stdlib.h>
 # include <stdio.h>
+
+#define TITLE "ft_ls"
+
+typedef struct stat	t_stat;
 
 typedef struct	s_lsdir
 {
@@ -61,7 +65,7 @@ void	checkmode(t_lsdir *lsdir);
 void	show_id(t_lsdir *lsdir, t_lsalign *align);
 void	printls(t_lsdir *lsdir, t_lsalign *align, t_lsoption *option);
 void	showtime(time_t *clock);
-t_lsalign	*checkalign(t_lsdir *lsdir);
+t_lsalign	*checkalign(t_lsdir *lsdir, t_lsoption *option);
 void	showlinks(t_lsdir *lsdir, t_lsalign *align);
 void	showbytes(t_lsdir *lsdir, t_lsalign *align);
 int 	ft_parse(t_lsoption *option, char **argv);

@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:20 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/17 19:12:57 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/24 16:26:09 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ t_lsdir	*ft_ls_sortascii(t_lsdir *lsdir)
 		}
 	}
 	lsdir = tmp;
+	while (lsdir->previous)
+		lsdir = lsdir->previous;
 	return (lsdir);
 }
 
@@ -92,7 +94,7 @@ void	checkmode(t_lsdir *lsdir)
 	(lsdir->stat->st_mode & S_IROTH) ? ft_putchar('r') : ft_putchar('-');
 	(lsdir->stat->st_mode & S_IWOTH) ? ft_putchar('w') : ft_putchar('-');
 	(lsdir->stat->st_mode & S_IXOTH) ? ft_putchar('x') : ft_putchar('-');
-	ft_putchar(' ');
+	ft_putstr("  ");
 }
 
 void	show_id(t_lsdir *lsdir, t_lsalign *align)
