@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/24 16:19:54 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/24 16:31:53 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/27 22:37:07 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,51 +42,70 @@ static int	ft_checkelsedir(char *name)
 		return (2);
 	return (0);
 }
+
 int			main(int argc, char **argv)
 {
 	DIR				*dir;
 	t_lsoption		*option;
-	int			i;
-	int			n;
+	int				i;
+	int				n;
 
 	option = (t_lsoption*)malloc(sizeof(t_lsoption));
 	n = ft_parse(option, argv);
 	i = n;
+	argv = ft_argsort(argv, 2, argc - 1);
 	if (argc == i)
 	{
 		dir = opendir(".");
-		ft_startls(dir, option,argv[i]);
+		ft_startls(dir, option, argv[i]);
 	}
 	else
 	{
-		while (argv[i])
+		while (i < argc)
 		{
-		if (ft_checkelsedir(argv[i]) == 2)
-			while(ft_checkelsedir(argv[i]) == 2 && argv[i])
-			{
-				ft_startls(NULL,option,argv[i]);
-				i++;
-			}
-		i++;
+			if (!ft_checkelsedir(argv[i]) && i < argc)
+				while (!ft_checkelsedir(argv[i]) && i < argc)
+				{
+					ft_putstr(TITLE);
+					ft_putstr(": ");
+					perror(argv[i]);
+					i++;
+				}
+			i++;
 		}
 		i = n;
-		while (argv[i])
+		while (i < argc)
 		{
-		if (ft_checkelsedir(argv[i]) == 1)
-			while (ft_checkelsedir(argv[i]) == 1 && argv[i])
-			{
-				dir = opendir(argv[i]);
-				ft_startls(dir,option, argv[i]);
-				closedir(dir);
-				i++;
-			}
-		i++;
+			if (ft_checkelsedir(argv[i]) == 2)
+				while (ft_checkelsedir(argv[i]) == 2 && i < argc)
+				{
+					ft_startls(NULL, option, argv[i]);
+					i++;
+				}
+			i++;
+		}
+		i = n;
+		while (i < argc)
+		{
+			if (ft_checkelsedir(argv[i]) == 1)
+				while (ft_checkelsedir(argv[i]) == 1 && i < argc)
+				{
+					if (argc > 2)
+					{
+						ft_putchar('\n');
+						ft_putstr(argv[i]);
+						ft_putendl(":");
+					}
+					dir = opendir(argv[i]);
+					ft_startls(dir, option, argv[i]);
+					closedir(dir);
+					i++;
+				}
+			i++;
 		}
 	}
 	return (0);
 }
-
-
 
 int			ft_parse(t_lsoption *option, char **argv)
 {
@@ -99,13 +118,15 @@ int			ft_parse(t_lsoption *option, char **argv)
 	option->optiona = 0;
 	option->optionr = 0;
 	option->optiont = 0;
+	if (ft_checkelsedir(argv[i]) && (argv[i][0] != '-'))
+		return (i);
 	while (argv[i] && (argv[i][0] == '-'))
 	{
 		j = 1;
-		while(argv[i][j])
+		while (argv[i][j])
 		{
 			if (argv[i][j] == '-')
-				return (i + 1);	
+				return (i + 1);
 			ft_checkarg(argv[i][j]);
 			if (argv[i][j] == 'l')
 				option->optionl = 1;
@@ -138,18 +159,22 @@ void		ft_startls(DIR *dir, t_lsoption *option, char *argv)
 		ft_addlsdir(&lsdir, elem, argv, NULL);
 	}
 	else
+	{
 		while ((fichier = readdir(dir)) != NULL)
 		{
 			elem = ft_newlst();
 			ft_addlsdir(&lsdir, elem, fichier->d_name, argv);
 		}
+	}
 	lsdir = ft_ls_sortascii(lsdir);
 	align = checkalign(lsdir, option);
 	while (lsdir)
 	{
 		if (!option->optiona)
+		{
 			if (lsdir->name[0] != '.')
 				printls(lsdir, align, option);
+		}
 		else
 			printls(lsdir, align, option);
 		lsdir = lsdir->next;

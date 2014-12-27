@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/24 16:31:55 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/27 18:17:12 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	showlinks(t_lsdir *lsdir, t_lsalign *align);
 void	showbytes(t_lsdir *lsdir, t_lsalign *align);
 int 	ft_parse(t_lsoption *option, char **argv);
 void	ft_startls(DIR *dir, t_lsoption *option, char *argv);
-
+char	**ft_argsort(char **argv, int start, int end);
 
 
 

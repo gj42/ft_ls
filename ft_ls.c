@@ -6,12 +6,11 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:20 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/24 16:26:09 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/26 21:05:30 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
 
 void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 {
@@ -31,7 +30,7 @@ void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 	ft_strcpy(new->name, name);
 	if (path)
 	{
-		pathfile = ft_strjoin(path,ft_strjoin("/",name));
+		pathfile = ft_strjoin(path, ft_strjoin("/", name));
 		lstat(pathfile, new->stat);
 	}
 	else
@@ -104,9 +103,9 @@ void	show_id(t_lsdir *lsdir, t_lsalign *align)
 	space = align->user;
 	ft_putstr(lsdir->id->pw_name);
 	while (space > ft_strlen(lsdir->id->pw_name))
-	{		
-			ft_putchar(' ');
-			space--;
+	{
+		ft_putchar(' ');
+		space--;
 	}
 	ft_putstr("  ");
 	space = align->grp;
