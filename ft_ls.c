@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:20 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/26 21:05:30 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/29 18:06:59 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,14 @@ void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 	if (path)
 	{
 		pathfile = ft_strjoin(path, ft_strjoin("/", name));
+		new->path = pathfile;
 		lstat(pathfile, new->stat);
 	}
 	else
+	{
 		lstat(name, new->stat);
+		new->path = ft_strjoin("./", name);
+	}
 	new->id = getpwuid(new->stat->st_uid);
 	new->grp = getgrgid(new->stat->st_gid);
 }
@@ -96,34 +100,31 @@ void	checkmode(t_lsdir *lsdir)
 	ft_putstr("  ");
 }
 
-void	show_id(t_lsdir *lsdir, t_lsalign *align)
+t_lsdir	*ft_ls_sorttime(t_lsdir *lsdir)
 {
-	size_t space;
+	t_lsdir	*tmp;
+	int		exchange;
 
-	space = align->user;
-	ft_putstr(lsdir->id->pw_name);
-	while (space > ft_strlen(lsdir->id->pw_name))
+	exchange = 1;
+	tmp = lsdir;
+	while (exchange)
 	{
-		ft_putchar(' ');
-		space--;
+		exchange = 0;
+		lsdir = tmp;
+		while (lsdir && lsdir->next)
+		{	
+			if (lsdir->stat->st_mtimespec.tv_sec < lsdir->next->stat->st_mtimespec.tv_sec)
+			{
+				swaplist(lsdir, lsdir->next);
+				if (lsdir->next != NULL)
+					lsdir->next->previous = lsdir;
+				exchange = 1;
+			}
+			lsdir = lsdir->next;
+		}
 	}
-	ft_putstr("  ");
-	space = align->grp;
-	ft_putstr(lsdir->grp->gr_name);
-	while (space > ft_strlen(lsdir->grp->gr_name))
-	{
-		ft_putchar(' ');
-		space--;
-	}
-	ft_putstr("  ");
-}
-
-void	showtime(time_t *clock)
-{
-	char *time;
-
-	time = ctime(clock);
-	time = ft_strsub(time, 3, 13);
-	ft_putstr(time);
-	ft_putstr(" ");
+	lsdir = tmp;
+	while (lsdir->previous)
+		lsdir = lsdir->previous;
+	return (lsdir);
 }

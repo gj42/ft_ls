@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/24 16:19:54 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/27 22:37:07 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/29 20:00:37 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void ft_checkarg(char c)
 {
-	if (!(c == 'l' || c == 'R' || c == 'a' || c == 'r' || c == 't' || c == '-'))
+	if (!(c == 'l' || c == 'R' || c == 'a' || c == 'r' || c == 't' || c == '-'
+				|| c == '1'))
 	{
 		ft_putstr(TITLE);
 		ft_putstr(": ");
@@ -90,7 +91,7 @@ int			main(int argc, char **argv)
 			if (ft_checkelsedir(argv[i]) == 1)
 				while (ft_checkelsedir(argv[i]) == 1 && i < argc)
 				{
-					if (argc > 2)
+					if (argc > i + 1)
 					{
 						ft_putchar('\n');
 						ft_putstr(argv[i]);
@@ -118,6 +119,7 @@ int			ft_parse(t_lsoption *option, char **argv)
 	option->optiona = 0;
 	option->optionr = 0;
 	option->optiont = 0;
+	option->hidden = 0;
 	if (ft_checkelsedir(argv[i]) && (argv[i][0] != '-'))
 		return (i);
 	while (argv[i] && (argv[i][0] == '-'))
@@ -151,6 +153,7 @@ void		ft_startls(DIR *dir, t_lsoption *option, char *argv)
 	t_lsdir			*lsdir;
 	t_lsdir			*elem;
 	t_lsalign		*align;
+	t_lsdir			*temp;
 
 	lsdir = NULL;
 	if (dir == NULL)
@@ -166,9 +169,24 @@ void		ft_startls(DIR *dir, t_lsoption *option, char *argv)
 			ft_addlsdir(&lsdir, elem, fichier->d_name, argv);
 		}
 	}
-	lsdir = ft_ls_sortascii(lsdir);
+	if (option->optiont)
+		lsdir = ft_ls_sorttime(lsdir);
+	else
+		lsdir = ft_ls_sortascii(lsdir);
 	align = checkalign(lsdir, option);
-	while (lsdir)
+	if (dir && option->optionl)
+	{
+		ft_putstr("total ");
+		ft_putnbr(align->totalblocks);
+		ft_putchar('\n');
+	}
+	if (option->optionr)
+	{
+		while (lsdir && lsdir->next)
+			lsdir = lsdir->next;
+	}
+	temp = lsdir;
+	while (lsdir && !option->hidden)
 	{
 		if (!option->optiona)
 		{
@@ -177,6 +195,22 @@ void		ft_startls(DIR *dir, t_lsoption *option, char *argv)
 		}
 		else
 			printls(lsdir, align, option);
-		lsdir = lsdir->next;
+		if (option->optionr)
+			lsdir = lsdir->previous;
+		else
+			lsdir = lsdir->next;
+	}
+	if (option->optionrr)
+	{
+		lsdir = temp;
+		while (lsdir->previous)
+			lsdir = lsdir->previous;
+		while (lsdir)
+		{
+			if (S_ISDIR(lsdir->stat->st_mode) && ft_strcmp(lsdir->name,".")
+					&& ft_strcmp(lsdir->name, ".."))
+				ft_start_recursive(lsdir, option);	
+			lsdir = lsdir->next;
+		}
 	}
 }

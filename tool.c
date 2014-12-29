@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/27 18:31:10 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/27 18:39:23 by gjensen          ###   ########.fr       */
+/*   Updated: 2014/12/29 20:00:29 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void				swaplist(t_lsdir *lsdir, t_lsdir *lsdirnext)
 void				printls(t_lsdir *lsdir,
 		t_lsalign *align, t_lsoption *option)
 {
+	char buf[1024];
+
 	if (option->optionl)
 	{
 		checkmode(lsdir);
@@ -53,8 +55,18 @@ void				printls(t_lsdir *lsdir,
 		show_id(lsdir, align);
 		showbytes(lsdir, align);
 		showtime(&lsdir->stat->st_mtime);
+		ft_putstr(lsdir->name);
+		ft_bzero(buf, sizeof(buf));
+		readlink(lsdir->path, buf, sizeof(buf));
+		if (buf[0])
+		{
+			ft_putstr(" -> ");
+			ft_putstr(buf);
+		}
+		ft_putchar('\n');
 	}
-	ft_putendl(lsdir->name);
+	else
+		ft_putendl(lsdir->name);
 }
 
 static t_lsalign	*checkaligncut(t_lsalign *align, t_lsdir *lsdir)
@@ -85,6 +97,7 @@ t_lsalign			*checkalign(t_lsdir *lsdir, t_lsoption *option)
 	t_lsalign	*align;
 
 	align = (t_lsalign*)malloc(sizeof(t_lsalign));
+	align->totalblocks = 0;
 	align->links = 0;
 	align->user = 0;
 	align->grp = 0;
@@ -92,10 +105,14 @@ t_lsalign			*checkalign(t_lsdir *lsdir, t_lsoption *option)
 	while (lsdir)
 	{
 		if (!option->optiona)
-			while (lsdir->name[0] == '.')
+			while (lsdir && lsdir->name[0] == '.')
 				lsdir = lsdir->next;
-		align = checkaligncut(align, lsdir);
-		lsdir = lsdir->next;
+		if (lsdir)
+		{
+			align->totalblocks += lsdir->stat->st_blocks;
+			align = checkaligncut(align, lsdir);
+			lsdir = lsdir->next;
+		}
 	}
 	return (align);
 }
