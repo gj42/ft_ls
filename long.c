@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/17 11:58:11 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/29 16:30:09 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/02 23:28:50 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,63 @@ void	showbytes(t_lsdir *lsdir, t_lsalign *align)
 {
 	int space;
 
-	space = align->bytes;
-	while (space > ft_intlen(lsdir->stat->st_size))
+	if (S_ISCHR(lsdir->stat->st_mode) || S_ISBLK(lsdir->stat->st_mode))
 	{
 		ft_putchar(' ');
-		space--;
+		space = align->majorl;
+		while (space > ft_intlen(MAJOR(lsdir->stat->st_rdev)))
+		{
+			ft_putchar(' ');
+			space--;
+		}
+		ft_putnbr(MAJOR(lsdir->stat->st_rdev));
+		ft_putstr(", ");
+		space = align->minorl;
+		while (space > ft_intlen(MINOR(lsdir->stat->st_rdev)))
+		{
+			ft_putchar(' ');
+			space--;
+		}
+		ft_putnbr(MINOR(lsdir->stat->st_rdev));
+		align->alignmaj = align->minorl + align->majorl + 2;
 	}
-	ft_putnbr(lsdir->stat->st_size);
+	else
+	{
+		space = align->bytes + align->alignmaj;
+		while (space > ft_intlen(lsdir->stat->st_size))
+		{
+			ft_putchar(' ');
+			space--;
+		}
+		ft_putnbr(lsdir->stat->st_size);
+	}
 }
 
 void    show_id(t_lsdir *lsdir, t_lsalign *align)
 {	
-	size_t space;
+	size_t	space;
+	char	*idname;
+	char	*grname;
 
 	space = align->user;
-	ft_putstr(lsdir->id->pw_name);
+	if (lsdir->id)
+		idname = lsdir->id->pw_name;
+	else
+		idname = ft_itoa(lsdir->stat->st_uid);
+	ft_putstr(idname);
+	while (space > ft_strlen(idname))
 	{
 		ft_putchar(' ');
 		space--;
 	}
 	ft_putstr("  ");
 	space = align->grp;
-	ft_putstr(lsdir->grp->gr_name);
-	while (space > ft_strlen(lsdir->grp->gr_name))
+	if (lsdir->grp)
+		grname = lsdir->grp->gr_name;
+	else
+		grname = ft_itoa(lsdir->stat->st_gid);
+	ft_putstr(grname);
+	while (space > ft_strlen(grname))
 	{
 		ft_putchar(' ');
 		space--;

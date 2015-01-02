@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/29 19:59:26 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/02 23:11:20 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-#define TITLE "ft_ls"
+# define TITLE "ft_ls"
+# define MAJOR(x) ((int32_t)(((u_int32_t)(x) >> 24) & 0xff))
+# define MINOR(x) ((int32_t)((x) & 0xffffff))
 
 typedef struct stat	t_stat;
 
@@ -47,6 +49,9 @@ typedef struct		s_lsalign
 	int	user;
 	int	grp;
 	int	bytes;
+	int minorl;
+	int majorl;
+	int alignmaj;
 }					t_lsalign;
 
 typedef	struct		s_lsoption

@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:20 by gjensen           #+#    #+#             */
-/*   Updated: 2014/12/29 18:06:59 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/03 00:02:41 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 		lstat(name, new->stat);
 		new->path = ft_strjoin("./", name);
 	}
-	new->id = getpwuid(new->stat->st_uid);
-	new->grp = getgrgid(new->stat->st_gid);
+ 	new->id = getpwuid(new->stat->st_uid);
+	new->grp = getgrgid(new->stat->st_gid);	
 }
 
 t_lsdir	*ft_ls_sortascii(t_lsdir *lsdir)
