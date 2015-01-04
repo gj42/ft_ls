@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/24 16:19:54 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/03 00:02:39 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/05 00:09:22 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,23 +174,39 @@ void		ft_startls(DIR *dir, t_lsoption *option, char *argv)
 	else
 		lsdir = ft_ls_sortascii(lsdir);
 	align = checkalign(lsdir, option);
-	if (dir && option->optionl)
+	temp = lsdir;
+	if (dir && option->optionl)		
 	{
-		ft_putstr("total ");
-		ft_putnbr(align->totalblocks);
-		ft_putchar('\n');
+		if (!option->optiona)
+		{
+
+			while (lsdir->next && (lsdir->name[0] == '.' && lsdir->stat->st_mode))
+					lsdir = lsdir->next;
+			if (lsdir->name[0] != '.')
+			{
+				ft_putstr("total ");
+				ft_putnbr(align->totalblocks);
+				ft_putchar('\n');	
+			}
+		}
+		else
+		{
+			ft_putstr("total ");
+			ft_putnbr(align->totalblocks);
+			ft_putchar('\n');
+		}
 	}
+	lsdir = temp;
 	if (option->optionr)
 	{
 		while (lsdir && lsdir->next)
 			lsdir = lsdir->next;
 	}
-	temp = lsdir;
 	while (lsdir && !option->hidden)
 	{
 		if (!option->optiona)
 		{
-			if (lsdir->name[0] != '.')
+			if (lsdir->name[0] != '.' || dir == NULL)
 				printls(lsdir, align, option);
 		}
 		else
@@ -203,13 +219,11 @@ void		ft_startls(DIR *dir, t_lsoption *option, char *argv)
 	if (option->optionrr)
 	{
 		lsdir = temp;
-		while (lsdir->previous)
-			lsdir = lsdir->previous;
 		while (lsdir)
 		{
 			if (S_ISDIR(lsdir->stat->st_mode) && ft_strcmp(lsdir->name,".")
 					&& ft_strcmp(lsdir->name, ".."))
-				ft_start_recursive(lsdir, option);	
+				ft_start_recursive(lsdir, option);
 			lsdir = lsdir->next;
 		}
 	}
