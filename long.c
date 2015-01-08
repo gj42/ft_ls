@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/17 11:58:11 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/04 22:08:44 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/08 21:54:29 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ void    show_id(t_lsdir *lsdir, t_lsalign *align)
 	char	*grname;
 
 	space = align->user;
-	if (lsdir->id)
-		idname = lsdir->id->pw_name;
+	if (lsdir->idn)
+		idname = lsdir->idn;
 	else
 		idname = ft_itoa(lsdir->stat->st_uid);
+	free(lsdir->idn);
 	ft_putstr(idname);
 	while (space > ft_strlen(idname))
 	{
@@ -81,11 +82,13 @@ void    show_id(t_lsdir *lsdir, t_lsalign *align)
 	}
 	ft_putstr("  ");
 	space = align->grp;
-	if (lsdir->grp)
-		grname = lsdir->grp->gr_name;
+	if (lsdir->gn)
+		grname = lsdir->gn;
 	else
 		grname = ft_itoa(lsdir->stat->st_gid);
+
 	ft_putstr(grname);
+	free(lsdir->gn);
 	while (space > ft_strlen(grname))
 	{
 		ft_putchar(' ');

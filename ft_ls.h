@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/04 20:23:59 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/09 00:04:40 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct		s_lsdir
 {
 	char			name[256];
 	char			*path;
-	struct passwd	*id;
-	struct group	*grp;
+	char			*idn;
+	char			*gn;
 	struct stat		*stat;
 	struct s_lsdir	*next;
 	struct s_lsdir  *previous;
@@ -81,6 +81,7 @@ void				ft_startls(DIR *dir, t_lsoption *option, char *argv);
 char				**ft_argsort(char **argv, int start, int end);
 t_lsdir				*ft_ls_sorttime(t_lsdir *lsdir);
 void				ft_start_recursive(t_lsdir *lsdir, t_lsoption *option);
+t_lsalign			*checkaligncut2(t_lsalign *align, t_lsdir *lsdir);
 
 
 

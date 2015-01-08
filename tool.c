@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/27 18:31:10 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/02 23:28:52 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/09 00:08:24 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,36 +74,34 @@ static t_lsalign	*checkaligncut(t_lsalign *align, t_lsdir *lsdir)
 	int links;
 	int	user;
 	int grp;
-	int	bytes;
-	int minormajorl[2];
 
 	links = ft_intlen(lsdir->stat->st_nlink);
 	if (links > align->links)
 		align->links = links;
-	if (lsdir->id)
-		user = ft_strlen(lsdir->id->pw_name);
+	if (lsdir->idn)
+		user = ft_strlen(lsdir->idn);
 	else
 		user = ft_strlen(ft_itoa(lsdir->stat->st_uid));
 	if (user > align->user)
 		align->user = user;
-	if (lsdir->grp)
-		grp = ft_strlen(lsdir->grp->gr_name);
+	if (lsdir->gn)
+		grp = ft_strlen(lsdir->gn);
 	else
 		grp = ft_strlen(ft_itoa(lsdir->stat->st_gid));
 	if (grp > align->grp)
 		align->grp = grp;
-	if (S_ISCHR(lsdir->stat->st_mode) || S_ISBLK(lsdir->stat->st_mode))
+/*	if (S_ISCHR(lsdir->stat->st_mode) || S_ISBLK(lsdir->stat->st_mode))
 	{
 		minormajorl[0] = ft_intlen(MINOR(lsdir->stat->st_rdev));
 		if (minormajorl[0] > align->minorl)
 			align->minorl = minormajorl[0];
 		minormajorl[1] = ft_intlen(MAJOR(lsdir->stat->st_rdev));
 		if (minormajorl[1] > align->majorl)
-			align->majorl =minormajorl[1];
+			align->majorl = minormajorl[1];
 	}
 	bytes = ft_intlen(lsdir->stat->st_size);
 	if (bytes > align->bytes)
-		align->bytes = bytes;
+		align->bytes = bytes;*/
 	return (align);
 }
 
@@ -129,6 +127,7 @@ t_lsalign			*checkalign(t_lsdir *lsdir, t_lsoption *option)
 		{
 			align->totalblocks += lsdir->stat->st_blocks;
 			align = checkaligncut(align, lsdir);
+			align = checkaligncut2(align, lsdir);
 			lsdir = lsdir->next;
 		}
 	}

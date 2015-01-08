@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/24 16:19:54 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/05 00:09:22 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/08 23:39:36 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int			main(int argc, char **argv)
 	t_lsoption		*option;
 	int				i;
 	int				n;
+	int				first;
 
 	option = (t_lsoption*)malloc(sizeof(t_lsoption));
 	n = ft_parse(option, argv);
@@ -62,6 +63,7 @@ int			main(int argc, char **argv)
 	}
 	else
 	{
+		first = 1;
 		while (i < argc)
 		{
 			if (!ft_checkelsedir(argv[i]) && i < argc)
@@ -81,6 +83,7 @@ int			main(int argc, char **argv)
 				while (ft_checkelsedir(argv[i]) == 2 && i < argc)
 				{
 					ft_startls(NULL, option, argv[i]);
+					first = 0;
 					i++;
 				}
 			i++;
@@ -91,9 +94,12 @@ int			main(int argc, char **argv)
 			if (ft_checkelsedir(argv[i]) == 1)
 				while (ft_checkelsedir(argv[i]) == 1 && i < argc)
 				{
-					if (argc > i + 1)
+					if (argc > n + 1)
 					{
-						ft_putchar('\n');
+						if (!first)
+							ft_putchar('\n');
+						else
+							first = 0;
 						ft_putstr(argv[i]);
 						ft_putendl(":");
 					}
@@ -105,6 +111,7 @@ int			main(int argc, char **argv)
 			i++;
 		}
 	}
+	free(option);
 	return (0);
 }
 
@@ -216,6 +223,7 @@ void		ft_startls(DIR *dir, t_lsoption *option, char *argv)
 		else
 			lsdir = lsdir->next;
 	}
+	free(align);
 	if (option->optionrr)
 	{
 		lsdir = temp;

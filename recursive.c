@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:50:10 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/05 00:09:15 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/08 23:35:13 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,10 @@ void	ft_start_recursive(t_lsdir *lsdir, t_lsoption *option)
 		ft_putendl(":");
 	}
 	dir = opendir(lsdir->path);
-	ft_startls(dir, option, lsdir->path);
+	if (!lsdir->next && lsdir)
+		free(lsdir->stat);
+	if (dir != 0)
+		ft_startls(dir, option, lsdir->path);
+	if (dir != NULL)
+		closedir(dir);
 }
