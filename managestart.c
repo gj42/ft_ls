@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 04:25:40 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 06:57:26 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/12 23:20:54 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void ft_checkarg(char c)
 	}
 }
 
-void	showblocks(t_lsdir *lsdir, t_lsalign *align, t_lsoption *option)
+void		showblocks(t_lsdir *lsdir, t_lsalign *align, t_lsoption *option)
 {
 	if (!option->optiona)
 	{
@@ -51,7 +51,7 @@ void	showblocks(t_lsdir *lsdir, t_lsalign *align, t_lsoption *option)
 	}
 }
 
-t_lsdir	*ls_sort_lsdir(t_lsdir *lsdir, t_lsoption *option)
+t_lsdir		*ls_sort_lsdir(t_lsdir *lsdir, t_lsoption *option)
 {
 	if (option->optiont)
 	{
@@ -63,7 +63,7 @@ t_lsdir	*ls_sort_lsdir(t_lsdir *lsdir, t_lsoption *option)
 	return (lsdir);
 }
 
-void	ft_startlscut(t_lsdir *lsdir, t_lsoption *option,
+void		ft_startlscut(t_lsdir *lsdir, t_lsoption *option,
 		t_lsalign *align, DIR *dir)
 {
 	if (dir && option->optionl)
@@ -89,7 +89,7 @@ void	ft_startlscut(t_lsdir *lsdir, t_lsoption *option,
 	}
 }
 
-int		ft_parsecut(t_lsoption *option, char **argv, int i)
+int			ft_parsecut(t_lsoption *option, char **argv, int i)
 {
 	int j;
 

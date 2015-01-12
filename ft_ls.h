@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 06:59:17 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/12 23:20:57 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef	struct		s_lsoption
 	int	optionr;
 	int	optionrr;
 	int optiont;
+	int first;
 }					t_lsoption;
 t_lsdir				*ft_newlst(void);
 void				swaplist(t_lsdir *lsdir, t_lsdir *lsdirnext);
@@ -92,5 +93,10 @@ void				ls_recursiveon(t_lsdir *lsdir, t_lsoption *option);
 void				ft_startlscut(t_lsdir *lsdir, t_lsoption *option,
 		t_lsalign *align, DIR *dir);
 int					ft_parsecut(t_lsoption *option, char **argv, int i);
-
+void				ls_show_uk(int argc, char **argv, int i);
+void				ls_show_reg(int argc, char **argv,
+		t_lsoption *option, int i);
+void				ls_show_dir(int argc, char **argv,
+		t_lsoption *option, int i);
+int					ft_checkelsedir(char *name);
 #endif
