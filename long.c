@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/17 11:58:11 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/08 21:54:29 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/12 04:21:00 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,13 @@ void	showbytes(t_lsdir *lsdir, t_lsalign *align)
 		align->alignmaj = align->minorl + align->majorl + 2;
 	}
 	else
-	{
-		space = align->bytes + align->alignmaj;
-		while (space > ft_intlen(lsdir->stat->st_size))
-		{
-			ft_putchar(' ');
-			space--;
-		}
-		ft_putnbr(lsdir->stat->st_size);
-	}
+		showbytescut(lsdir, align);
 }
 
-void    show_id(t_lsdir *lsdir, t_lsalign *align)
-{	
+void	show_id(t_lsdir *lsdir, t_lsalign *align)
+{
 	size_t	space;
 	char	*idname;
-	char	*grname;
 
 	space = align->user;
 	if (lsdir->idn)
@@ -81,30 +72,16 @@ void    show_id(t_lsdir *lsdir, t_lsalign *align)
 		space--;
 	}
 	ft_putstr("  ");
-	space = align->grp;
-	if (lsdir->gn)
-		grname = lsdir->gn;
-	else
-		grname = ft_itoa(lsdir->stat->st_gid);
-
-	ft_putstr(grname);
-	free(lsdir->gn);
-	while (space > ft_strlen(grname))
-	{
-		ft_putchar(' ');
-		space--;
-	}
-	ft_putstr("  ");
+	show_grp(lsdir, align);
 }
 
-
-void    showtime(time_t *clock)
+void	showtime(time_t *clock)
 {
-	char    *str;
-	time_t  ct;
-	char    *date;
-	char    *year;
-	char    *hours;
+	char	*str;
+	time_t	ct;
+	char	*date;
+	char	*year;
+	char	*hours;
 
 	ct = time(NULL);
 	if ((str = ctime(clock)) == NULL)

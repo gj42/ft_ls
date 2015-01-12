@@ -6,15 +6,15 @@
 #    By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/26 10:48:25 by gjensen           #+#    #+#              #
-#    Updated: 2015/01/09 00:06:03 by gjensen          ###   ########.fr        #
+#    Updated: 2015/01/12 06:18:08 by gjensen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
-SRC = ft_ls.c main.c tool.c tool2.c long.c recursive.c
+SRC = ft_ls.c main.c tool.c tool2.c long.c long2.c managestart.c recursive.c
 
-OBJ = ft_ls.o main.o tool.o tool2.o long.o recursive.o
+OBJ = ft_ls.o main.o tool.o tool2.o long.o long2.o managestart.o recursive.o
 
 CFLAGS = -Werror -Wall -Wextra
 

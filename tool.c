@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/27 18:31:10 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/09 00:08:24 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/12 00:51:17 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_lsdir				*ft_newlst(void)
 
 	if ((ret = (t_lsdir*)malloc(sizeof(t_lsdir))) == NULL)
 		return (NULL);
-	if ((ret->stat = (struct stat*)malloc(sizeof(t_lsdir))) == NULL)
+	if ((ret->stat = (struct stat*)malloc(sizeof(struct stat))) == NULL)
 		return (NULL);
 	ret->next = NULL;
 	ret->previous = NULL;
@@ -90,18 +90,6 @@ static t_lsalign	*checkaligncut(t_lsalign *align, t_lsdir *lsdir)
 		grp = ft_strlen(ft_itoa(lsdir->stat->st_gid));
 	if (grp > align->grp)
 		align->grp = grp;
-/*	if (S_ISCHR(lsdir->stat->st_mode) || S_ISBLK(lsdir->stat->st_mode))
-	{
-		minormajorl[0] = ft_intlen(MINOR(lsdir->stat->st_rdev));
-		if (minormajorl[0] > align->minorl)
-			align->minorl = minormajorl[0];
-		minormajorl[1] = ft_intlen(MAJOR(lsdir->stat->st_rdev));
-		if (minormajorl[1] > align->majorl)
-			align->majorl = minormajorl[1];
-	}
-	bytes = ft_intlen(lsdir->stat->st_size);
-	if (bytes > align->bytes)
-		align->bytes = bytes;*/
 	return (align);
 }
 

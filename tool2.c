@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/24 13:20:22 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/09 00:08:11 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/12 03:58:41 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,51 @@ t_lsalign	*checkaligncut2(t_lsalign *align, t_lsdir *lsdir)
 	if (bytes > align->bytes)
 		align->bytes = bytes;
 	return (align);
+}
+
+t_lsdir		*ft_ls_sorttimeascii(t_lsdir *lsdir, int exchange)
+{
+	t_lsdir	*tmp;
+
+	tmp = lsdir;
+	while (exchange)
+	{
+		exchange = 0;
+		lsdir = tmp;
+		while (lsdir && lsdir->next)
+		{
+			if (lsdir->stat->st_mtimespec.tv_sec
+					== lsdir->next->stat->st_mtimespec.tv_sec)
+				if (ft_strcmp(lsdir->name, lsdir->next->name) > 0)
+				{
+					swaplist(lsdir, lsdir->next);
+					if (lsdir->next != NULL)
+						lsdir->next->previous = lsdir;
+					exchange = 1;
+				}
+			lsdir = lsdir->next;
+		}
+	}
+	while (lsdir->previous)
+		lsdir = lsdir->previous;
+	return (lsdir);
+}
+
+t_lsdir		*ls_addidandgrp(t_lsdir *new, char *name)
+{
+	struct passwd	*id;
+	struct group	*grp;
+
+	ft_strcpy(new->name, name);
+	id = getpwuid(new->stat->st_uid);
+	grp = getgrgid(new->stat->st_gid);
+	if (id)
+		new->idn = ft_strdup(id->pw_name);
+	else
+		new->idn = NULL;
+	if (grp)
+		new->gn = ft_strdup(grp->gr_name);
+	else
+		new->gn = NULL;
+	return (new);
 }

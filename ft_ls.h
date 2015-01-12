@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/09 00:04:40 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/12 06:59:17 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,10 @@ typedef struct		s_lsdir
 	char			*path;
 	char			*idn;
 	char			*gn;
-	struct stat		*stat;
+	t_stat			*stat;
 	struct s_lsdir	*next;
-	struct s_lsdir  *previous;
-}				t_lsdir;
-
+	struct s_lsdir	*previous;
+}					t_lsdir;
 typedef struct		s_lsalign
 {
 	int	totalblocks;
@@ -53,7 +52,6 @@ typedef struct		s_lsalign
 	int majorl;
 	int alignmaj;
 }					t_lsalign;
-
 typedef	struct		s_lsoption
 {
 	int	hidden;
@@ -63,32 +61,36 @@ typedef	struct		s_lsoption
 	int	optionrr;
 	int optiont;
 }					t_lsoption;
-
-
 t_lsdir				*ft_newlst(void);
 void				swaplist(t_lsdir *lsdir, t_lsdir *lsdirnext);
-void				ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path);
-t_lsdir				*ft_ls_sortascii(t_lsdir *lsdir);
+void				ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new,
+		char *name, char *path);
+t_lsdir				*ft_ls_sortascii(t_lsdir *lsdir, int exchange);
 void				checkmode(t_lsdir *lsdir);
 void				show_id(t_lsdir *lsdir, t_lsalign *align);
-void				printls(t_lsdir *lsdir, t_lsalign *align, t_lsoption *option);
+void				printls(t_lsdir *lsdir, t_lsalign *align,
+		t_lsoption *option);
 void				showtime(time_t *clock);
 t_lsalign			*checkalign(t_lsdir *lsdir, t_lsoption *option);
 void				showlinks(t_lsdir *lsdir, t_lsalign *align);
 void				showbytes(t_lsdir *lsdir, t_lsalign *align);
-int 				ft_parse(t_lsoption *option, char **argv);
-void				ft_startls(DIR *dir, t_lsoption *option, char *argv);
+int					ft_parse(t_lsoption *option, char **argv);
+void				ft_startls(DIR *dir, t_lsoption *option, char *argv,
+		t_lsdir *lsdir);
 char				**ft_argsort(char **argv, int start, int end);
-t_lsdir				*ft_ls_sorttime(t_lsdir *lsdir);
+t_lsdir				*ft_ls_sorttime(t_lsdir *lsdir, int exchange);
 void				ft_start_recursive(t_lsdir *lsdir, t_lsoption *option);
 t_lsalign			*checkaligncut2(t_lsalign *align, t_lsdir *lsdir);
-
-
-
-
-
-
-
-
+t_lsdir				*ft_ls_sorttimeascii(t_lsdir *lsdir, int exchange);
+t_lsdir				*ls_addidandgrp(t_lsdir *new, char *name);
+void				showbytescut(t_lsdir *lsdir, t_lsalign *align);
+void				show_grp(t_lsdir *lsdir, t_lsalign *align);
+void				showblocks(t_lsdir *lsdir, t_lsalign *align,
+		t_lsoption *option);
+t_lsdir				*ls_sort_lsdir(t_lsdir *lsdir, t_lsoption *option);
+void				ls_recursiveon(t_lsdir *lsdir, t_lsoption *option);
+void				ft_startlscut(t_lsdir *lsdir, t_lsoption *option,
+		t_lsalign *align, DIR *dir);
+int					ft_parsecut(t_lsoption *option, char **argv, int i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:20 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/08 22:35:47 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/12 04:50:43 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 {
-	t_lsdir	*temp;
-	char	*pathfile;
-	struct passwd	*id;
-	struct group	*grp;
+	t_lsdir			*temp;
+	char			*pathfile;
 
 	if (*tlsdir == NULL)
 		*tlsdir = new;
@@ -29,7 +27,6 @@ void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 		new->previous = temp;
 		temp->next = new;
 	}
-	ft_strcpy(new->name, name);
 	if (path)
 	{
 		pathfile = ft_strjoin(path, ft_strjoin("/", name));
@@ -41,29 +38,20 @@ void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 		lstat(name, new->stat);
 		new->path = ft_strjoin("./", name);
 	}
-	id = getpwuid(new->stat->st_uid);
-	grp = getgrgid(new->stat->st_gid);
-	if (id)
-		new->idn = ft_strdup(id->pw_name);
-	else
-		new->idn = NULL;
-	if (grp)
-		new->gn = ft_strdup(grp->gr_name);
-	else
-		new->gn = NULL;
+	new = ls_addidandgrp(new, name);
 }
 
-t_lsdir	*ft_ls_sortascii(t_lsdir *lsdir)
+t_lsdir	*ft_ls_sortascii(t_lsdir *lsdir, int exchange)
 {
 	t_lsdir	*tmp;
-	int		exchange;
 
-	exchange = 1;
 	tmp = lsdir;
 	while (exchange)
 	{
 		exchange = 0;
 		lsdir = tmp;
+		while (lsdir->previous)
+			lsdir = lsdir->previous;
 		while (lsdir && lsdir->next)
 		{
 			if (ft_strcmp(lsdir->name, lsdir->next->name) > 0)
@@ -76,7 +64,6 @@ t_lsdir	*ft_ls_sortascii(t_lsdir *lsdir)
 			lsdir = lsdir->next;
 		}
 	}
-	lsdir = tmp;
 	while (lsdir->previous)
 		lsdir = lsdir->previous;
 	return (lsdir);
@@ -110,20 +97,21 @@ void	checkmode(t_lsdir *lsdir)
 	ft_putstr("  ");
 }
 
-t_lsdir	*ft_ls_sorttime(t_lsdir *lsdir)
+t_lsdir	*ft_ls_sorttime(t_lsdir *lsdir, int exchange)
 {
 	t_lsdir	*tmp;
-	int		exchange;
 
-	exchange = 1;
 	tmp = lsdir;
 	while (exchange)
 	{
 		exchange = 0;
 		lsdir = tmp;
+		while (lsdir->previous)
+			lsdir = lsdir->previous;
 		while (lsdir && lsdir->next)
-		{	
-			if (lsdir->stat->st_mtimespec.tv_sec < lsdir->next->stat->st_mtimespec.tv_sec)
+		{
+			if (lsdir->stat->st_mtimespec.tv_sec
+					< lsdir->next->stat->st_mtimespec.tv_sec)
 			{
 				swaplist(lsdir, lsdir->next);
 				if (lsdir->next != NULL)
@@ -133,7 +121,6 @@ t_lsdir	*ft_ls_sorttime(t_lsdir *lsdir)
 			lsdir = lsdir->next;
 		}
 	}
-	lsdir = tmp;
 	while (lsdir->previous)
 		lsdir = lsdir->previous;
 	return (lsdir);
