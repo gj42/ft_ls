@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 23:41:21 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 23:20:16 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/14 23:03:55 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,17 @@ void	ls_show_dir(int argc, char **argv, t_lsoption *option, int i)
 					ft_putstr(argv[i]);
 					ft_putendl(":");
 				}
-				dir = opendir(argv[i]);
-				ft_startls(dir, option, argv[i], NULL);
-				closedir(dir);
+				if ((dir = opendir(argv[i])) != NULL)
+				{
+					ft_startls(dir, option, argv[i], NULL);
+					closedir(dir);
+				}
+				else
+				{
+					ft_putstr(TITLE);
+					ft_putstr(": ");
+					perror(argv[i]);
+				}
 				i++;
 			}
 		i++;

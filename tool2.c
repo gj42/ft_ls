@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/24 13:20:22 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 03:58:41 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/15 00:12:06 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char		**ft_argsort(char **argv, int start, int end)
 	int			right;
 	const char	*pivot;
 
-	left = start - 1;
+	left = start;
 	right = end;
 	pivot = argv[start];
 	if (start >= end)

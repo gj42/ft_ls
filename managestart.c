@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 04:25:40 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 23:20:54 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/15 00:07:05 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,10 @@ int			ft_parsecut(t_lsoption *option, char **argv, int i)
 				option->optiont = 1;
 			j++;
 		}
-		i++;
+		if (argv[i + 1])
+			i++;
+		else 
+			return (i);
 	}
 	return (i);
 }

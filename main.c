@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/24 16:19:54 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 23:17:47 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/15 00:12:08 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			main(int argc, char **argv)
 
 	option = (t_lsoption*)malloc(sizeof(t_lsoption));
 	i = ft_parse(option, argv);
-	argv = ft_argsort(argv, 2, argc - 1);
+	argv = ft_argsort(argv, i + 1, argc - 1);
 	if (argc == i)
 	{
 		dir = opendir(".");
