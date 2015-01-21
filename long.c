@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/17 11:58:11 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 04:21:00 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/21 21:56:54 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	showbytes(t_lsdir *lsdir, t_lsalign *align)
 			space--;
 		}
 		ft_putnbr(MAJOR(lsdir->stat->st_rdev));
-		ft_putstr(", ");
+		ft_putstr(",");
 		space = align->minorl;
 		while (space > ft_intlen(MINOR(lsdir->stat->st_rdev)))
 		{

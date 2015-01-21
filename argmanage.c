@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 23:41:21 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/14 23:03:55 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/21 22:42:09 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,36 +61,41 @@ void	ls_show_reg(int argc, char **argv, t_lsoption *option, int i)
 void	ls_show_dir(int argc, char **argv, t_lsoption *option, int i)
 {
 	int	n;
-	DIR	*dir;
 
 	n = i;
 	while (i < argc)
 	{
-		if (ft_checkelsedir(argv[i]) == 1)
-			while (ft_checkelsedir(argv[i]) == 1 && i < argc)
+		while (ft_checkelsedir(argv[i]) == 1 && i < argc)
+		{
+			if (argc > n + 1)
 			{
-				if (argc > n + 1)
-				{
-					if (!option->first)
-						ft_putchar('\n');
-					else
-						option->first = 0;
-					ft_putstr(argv[i]);
-					ft_putendl(":");
-				}
-				if ((dir = opendir(argv[i])) != NULL)
-				{
-					ft_startls(dir, option, argv[i], NULL);
-					closedir(dir);
-				}
+				if (!option->first)
+					ft_putchar('\n');
 				else
-				{
-					ft_putstr(TITLE);
-					ft_putstr(": ");
-					perror(argv[i]);
-				}
-				i++;
+					option->first = 0;
+				ft_putstr(argv[i]);
+				ft_putendl(":");
 			}
+			ls_show_dir2(argv[i], option);
+			i++;
+		}
 		i++;
+	}
+}
+
+void	ls_show_dir2(char *title, t_lsoption *option)
+{
+	DIR *dir;
+
+	if ((dir = opendir(title)) != NULL)
+	{
+		ft_startls(dir, option, title, NULL);
+		closedir(dir);
+	}
+	else
+	{
+		ft_putstr(TITLE);
+		ft_putstr(": ");
+		perror(title);
 	}
 }

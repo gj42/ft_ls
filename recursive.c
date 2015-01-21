@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:50:10 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 06:43:49 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/20 00:33:14 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ void	ft_start_recursive(t_lsdir *lsdir, t_lsoption *option)
 {
 	DIR		*dir;
 
-	if (!option->hidden)
-		ft_putchar('\n');
 	if (!option->optiona)
 		option->hidden = 1;
 	if (lsdir->name[0] != '.' || option->optiona)
 	{
+		ft_putchar('\n');
 		option->hidden = 0;
 		ft_putstr(lsdir->path);
 		ft_putendl(":");
@@ -31,6 +30,12 @@ void	ft_start_recursive(t_lsdir *lsdir, t_lsoption *option)
 		free(lsdir->stat);
 	if (dir != 0)
 		ft_startls(dir, option, lsdir->path, NULL);
+	else
+	{
+		ft_putstr(TITLE);
+		ft_putstr(": ");
+		perror(lsdir->name);
+	}
 	if (dir != NULL)
 		closedir(dir);
 }

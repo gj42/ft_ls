@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:38 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/12 23:25:13 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/21 22:44:03 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,5 @@ void				ls_show_reg(int argc, char **argv,
 void				ls_show_dir(int argc, char **argv,
 		t_lsoption *option, int i);
 int					ft_checkelsedir(char *name);
+void				ls_show_dir2(char *title, t_lsoption *option);
 #endif

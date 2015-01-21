@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/24 13:20:22 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/15 00:12:06 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/01/21 22:00:10 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char		**ft_argsort(char **argv, int start, int end)
 	int			right;
 	const char	*pivot;
 
-	left = start;
+	left = start - 1;
 	right = end;
 	pivot = argv[start];
 	if (start >= end)
@@ -48,17 +48,15 @@ char		**ft_argsort(char **argv, int start, int end)
 
 t_lsalign	*checkaligncut2(t_lsalign *align, t_lsdir *lsdir)
 {
-	int	minormajorl[2];
+	int	majorl;
 	int	bytes;
 
 	if (S_ISCHR(lsdir->stat->st_mode) || S_ISBLK(lsdir->stat->st_mode))
 	{
-		minormajorl[0] = ft_intlen(MINOR(lsdir->stat->st_rdev));
-		if (minormajorl[0] > align->minorl)
-			align->minorl = minormajorl[0];
-		minormajorl[1] = ft_intlen(MAJOR(lsdir->stat->st_rdev));
-		if (minormajorl[1] > align->majorl)
-			align->majorl = minormajorl[1];
+		align->minorl = 4;
+		majorl = ft_intlen(MAJOR(lsdir->stat->st_rdev));
+		if (majorl > align->majorl)
+			align->majorl = majorl;
 	}
 	bytes = ft_intlen(lsdir->stat->st_size);
 	if (bytes > align->bytes)
