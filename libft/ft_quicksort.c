@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tool2.c                                            :+:      :+:    :+:   */
+/*   ft_quicksort.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/24 13:20:22 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/11 22:18:48 by gjensen          ###   ########.fr       */
+/*   Created: 2015/01/21 23:19:59 by gjensen           #+#    #+#             */
+/*   Updated: 2015/01/21 23:20:07 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_quicksort(void *base, int start, int end)
+void	*ft_quicksort(void *base, int start, int end)
 {
 	int			left;
 	int			right;
-	const char	*pivot;
+	const void	*pivot;
 
 	left = start - 1;
 	end = right - 1;
