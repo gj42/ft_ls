@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 15:50:10 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/20 00:33:14 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/02/03 19:28:16 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,52 @@ void	ls_recursiveon(t_lsdir *lsdir, t_lsoption *option)
 			lsdir = lsdir->next;
 		else
 			lsdir = lsdir->previous;
+	}
+}
+
+char	**ft_argsortreverse(char **argv, int start, int end)
+{
+	int			left;
+	int			right;
+	const char	*pivot;
+
+	left = start - 1;
+	right = end + 1;
+	pivot = argv[start];
+	if (start >= end)
+		return (argv);
+	while (left < right)
+	{
+		right--;
+		while (ft_strcmp(argv[right], pivot) < 0)
+			right--;
+		left++;
+		while (ft_strcmp(argv[left], pivot) > 0)
+			left++;
+		if (left < right)
+			ls_swapstr(&argv[left], &argv[right]);
+	}
+	argv = ft_argsortreverse(argv, start, right);
+	argv = ft_argsortreverse(argv, right + 1, end);
+	return (argv);
+}
+
+void	ls_addpath(t_lsdir *new, char *name, char *path)
+{
+	char *pathfile;
+
+	if (path)
+	{
+		if (ft_strcmp(path, "/"))
+			pathfile = ft_strjoin(path, ft_strjoin("/", name));
+		else
+			pathfile = ft_strjoin(path, name);
+		new->path = pathfile;
+		lstat(pathfile, new->stat);
+	}
+	else
+	{
+		lstat(name, new->stat);
+		new->path = ft_strjoin("./", name);
 	}
 }

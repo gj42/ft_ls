@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 10:02:20 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/21 19:28:37 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/02/03 19:30:08 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 {
 	t_lsdir			*temp;
-	char			*pathfile;
 
 	if (*tlsdir == NULL)
 		*tlsdir = new;
@@ -27,17 +26,7 @@ void	ft_addlsdir(t_lsdir **tlsdir, t_lsdir *new, char *name, char *path)
 		new->previous = temp;
 		temp->next = new;
 	}
-	if (path)
-	{
-		pathfile = ft_strjoin(path, ft_strjoin("/", name));
-		new->path = pathfile;
-		lstat(pathfile, new->stat);
-	}
-	else
-	{
-		lstat(name, new->stat);
-		new->path = ft_strjoin("./", name);
-	}
+	ls_addpath(new, name, path);
 	new = ls_addidandgrp(new, name);
 }
 

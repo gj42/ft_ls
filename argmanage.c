@@ -6,7 +6,7 @@
 /*   By: gjensen <gjensen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/08 23:41:21 by gjensen           #+#    #+#             */
-/*   Updated: 2015/01/21 22:42:09 by gjensen          ###   ########.fr       */
+/*   Updated: 2015/02/03 19:09:29 by gjensen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	ls_show_dir(int argc, char **argv, t_lsoption *option, int i)
 		}
 		i++;
 	}
+	free(option);
 }
 
 void	ls_show_dir2(char *title, t_lsoption *option)
